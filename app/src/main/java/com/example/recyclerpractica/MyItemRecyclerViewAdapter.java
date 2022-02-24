@@ -2,6 +2,9 @@ package com.example.recyclerpractica;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +25,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
     Canciones canciones = new Canciones();
     private final List<Canciones.Cancion> mValues;
+    Context context;
 
     public MyItemRecyclerViewAdapter(List<Canciones.Cancion> items) {
         mValues = items;
@@ -39,6 +43,18 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         holder.nombre.setText(mValues.get(position).getNombre());
         holder.descripcion.setText(mValues.get(position).getDescription());
         holder.caratula.setImageBitmap(mValues.get(position).getPhoto());
+        int clase = mValues.get(position).getTipo();
+        if (clase ==0){
+            holder.tipos.setImageBitmap(mValues.get(position).getPhoto());
+        }
+        else if (clase ==1){
+         //   holder.tipos.setImageBitmap();
+
+        }
+        else if (clase==2){
+
+        }
+
 
     }
 
@@ -51,7 +67,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         public TextView nombre;
         public TextView descripcion;
         public ImageView caratula;
-        public int tipo;
+        public ImageView tipos;
         public ImageView play;
 
         public ViewHolder(FragmentItemBinding binding) {
@@ -60,6 +76,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
             descripcion = binding.textViewDescripciN;
             caratula = binding.caratula;
             play = binding.imageViewPlay;
+            tipos = binding.imageViewTipo;
         }
 
         @Override
