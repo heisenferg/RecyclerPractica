@@ -5,11 +5,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaPlayer;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.recyclerpractica.Canciones.Canciones;
 import com.example.recyclerpractica.placeholder.PlaceholderContent.PlaceholderItem;
@@ -64,7 +68,8 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
             public void onClick(View v) {
                 if (clase ==0){
                     //Audio
-
+                    Audio audio = new Audio();
+                    audio.repA();
                 }
                 else if (clase ==1){
                     //   Video
@@ -82,6 +87,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
 
     }
+
 
     @Override
     public int getItemCount() {
