@@ -45,17 +45,40 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         holder.caratula.setImageBitmap(mValues.get(position).getPhoto());
         int clase = mValues.get(position).getTipo();
         if (clase ==0){
-            holder.tipos.setImageBitmap(mValues.get(position).getPhoto());
+            holder.tipos.setImageResource(R.drawable.ic_nota_foreground);
         }
         else if (clase ==1){
-         //   holder.tipos.setImageBitmap();
-            holder.tipos.setImageResource(R.drawable.ic_nota_foreground);
+         //   Video
+            holder.tipos.setImageResource(R.drawable.ic_video_foreground);
 
 
         }
         else if (clase==2){
+            //Streaming
+            holder.tipos.setImageResource(R.drawable.ic_stream_foreground);
 
         }
+
+        holder.play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (clase ==0){
+                    //Audio
+
+                }
+                else if (clase ==1){
+                    //   Video
+
+
+
+                }
+                else if (clase==2){
+                    //Streaming
+
+
+                }
+            }
+        });
 
 
     }
