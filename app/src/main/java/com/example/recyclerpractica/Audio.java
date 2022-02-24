@@ -20,13 +20,13 @@ public class Audio extends AppCompatActivity implements MediaController.MediaPla
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-      //  setContentView(R.layout.activity_main);
+        setContentView(R.layout.fragment_item_list);
 
 
     }
 
-    public void repA(){
-        mediaPlayer = MediaPlayer.create(this, R.raw.eltiempopasara);
+    public void reprodicirMp3(){
+        //mediaPlayer = MediaPlayer.create(this, R.raw.eltiempopasara);
         mc = new MediaController(this);
         mc.setMediaPlayer((MediaController.MediaPlayerControl) this);
         mc.setAnchorView(findViewById(R.id.textViewCabeza));
