@@ -3,8 +3,7 @@ package com.example.recyclerpractica;
 import android.os.Bundle;
 
 import com.example.recyclerpractica.Canciones.Canciones;
-import com.example.recyclerpractica.databinding.FragmentItemListBinding;
-import com.google.android.material.snackbar.Snackbar;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 
