@@ -47,12 +47,15 @@ android:layout_marginTop="10dp"
                 android:layout_toEndOf="@+id/caratula"
                 android:text="Descripción" />
 
- Card            <ImageView
+
+
+            <ImageView
                 android:id="@+id/imageViewTipo"
                 android:layout_width="28dp"
                 android:layout_height="24dp"
+                android:layout_below="@+id/textViewNombre"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="-19dp"
                 android:layout_toEndOf="@+id/textViewDescripción"
                 app:srcCompat="@drawable/ic_launcher_background" />
 
