@@ -39,7 +39,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     private final List<Canciones.Cancion> mValues;
     Context context;
     CancionesActivity reproductor = new CancionesActivity();
-    public static String URI;
+    public static String URI="";
 
     public MyItemRecyclerViewAdapter(List<Canciones.Cancion> items) {
         mValues = items;
@@ -57,6 +57,9 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         holder.nombre.setText(mValues.get(position).getNombre());
         holder.descripcion.setText(mValues.get(position).getDescription());
         holder.caratula.setImageBitmap(mValues.get(position).getPhoto());
+
+        URI = mValues.get(position).getURI();
+
         int clase = mValues.get(position).getTipo();
 
         if (clase ==0){
@@ -74,7 +77,6 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
         }
 
-
         holder.play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,13 +85,51 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
                 if (clase ==0){
                     //Audio
                     // Para poder controlar que arranque, he utilizado esta solución.
+
                    // reproductor.start();
-                    if (URI.equals("eltiempopasara")){
+                    if (URI.equals("entersandman")){
+                        URI="";
+
+                        Log.d("URI Aqui " , URI);
+                        mediaPlayer = MediaPlayer.create(holder.caratula.getContext(), R.raw.entersandman);
+                        mc = new MediaController(holder.caratula.getContext());
+                        mc.setMediaPlayer((MediaController.MediaPlayerControl) holder.caratula.getContext());
+                        mc.setAnchorView(holder.cabecera);
+                        h = new Handler();
+                        mc.show();
 
                     }
-                    else if (URI.equals("entersandman")) {
+                    else if (URI.equals("eltiempopasara")) {
+                        URI="";
+                        mediaPlayer = MediaPlayer.create(holder.caratula.getContext(), R.raw.eltiempopasara);
+                        mc = new MediaController(holder.caratula.getContext());
+                        mc.setMediaPlayer((MediaController.MediaPlayerControl) holder.caratula.getContext());
+                        mc.setAnchorView(holder.cabecera);
+                        h = new Handler();
+                        mc.show();
 
                     }
+
+                    mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                        @Override
+                        public void onPrepared(MediaPlayer mp) {
+                            h.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mc.show(0);
+                                    mediaPlayer.start();
+
+                                }
+                            });
+                        }
+                    });
+                    mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                        @Override
+                        public void onCompletion(MediaPlayer mp) {
+                            mediaPlayer.release();
+                        }
+                    });
+
 
 
 

@@ -48,23 +48,29 @@ public class CancionesActivity extends AppCompatActivity implements MediaControl
 
 
 
-   //     Log.d("URI ", URI);
 
 
-        mediaPlayer = MediaPlayer.create(this, R.raw.entersandman);
+       /* if (URI.equals("entersandman")) {
+
+            mediaPlayer = MediaPlayer.create(this, R.raw.entersandman);
+        } else if (URI.equals("eltiempopasara")){
+            mediaPlayer = MediaPlayer.create(this, R.raw.eltiempopasara);
+
+        }*/
+        mediaPlayer = MediaPlayer.create(this, R.raw.eltiempopasara);
 
         mc = new MediaController(this);
         mc.setMediaPlayer((MediaController.MediaPlayerControl) this);
         mc.setAnchorView(findViewById(com.google.android.material.R.id.parentPanel));
         h = new Handler();
-        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+     /*   mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 h.post(new Runnable() {
                     @Override
                     public void run() {
                         mc.show(0);
-                        mediaPlayer.start();
+                     //   mediaPlayer.start();
 
                     }
                 });
@@ -76,9 +82,11 @@ public class CancionesActivity extends AppCompatActivity implements MediaControl
             public void onCompletion(MediaPlayer mp) {
                 mediaPlayer.release();
             }
-        });
+        });*/
 
     }
+
+
 
     @Override
     public boolean onSupportNavigateUp() {
