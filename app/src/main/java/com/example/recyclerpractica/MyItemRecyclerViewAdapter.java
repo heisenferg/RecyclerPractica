@@ -32,8 +32,8 @@ import java.util.List;
  */
 public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> implements MediaPlayerControl {
 
-    MediaPlayer mediaPlayer;
-    MediaController mc;
+    MediaPlayer mediaPlayer, mediaPlayer2;
+    MediaController mc, mc2;
     Handler h;
     Canciones canciones = new Canciones();
     private final List<Canciones.Cancion> mValues;
@@ -92,33 +92,50 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
                         Log.d("URI Aqui " , URI);
                         mediaPlayer = MediaPlayer.create(holder.caratula.getContext(), R.raw.entersandman);
-                        mc = new MediaController(holder.caratula.getContext());
-                        mc.setMediaPlayer((MediaController.MediaPlayerControl) holder.caratula.getContext());
-                        mc.setAnchorView(holder.cabecera);
-                        h = new Handler();
-                        mc.show();
 
                     }
                     else if (URI.equals("eltiempopasara")) {
                         URI="";
-                        mediaPlayer = MediaPlayer.create(holder.caratula.getContext(), R.raw.eltiempopasara);
-                        mc = new MediaController(holder.caratula.getContext());
-                        mc.setMediaPlayer((MediaController.MediaPlayerControl) holder.caratula.getContext());
-                        mc.setAnchorView(holder.cabecera);
+                        mediaPlayer2 = MediaPlayer.create(holder.caratula.getContext(), R.raw.eltiempopasara);
+                    /*    mc2 = new MediaController(holder.caratula.getContext());
+                        mc2.setMediaPlayer((MediaController.MediaPlayerControl) holder.caratula.getContext());
+                        mc2.setAnchorView(holder.cabecera);
                         h = new Handler();
-                        mc.show();
+                       // mc.show();
+                        mediaPlayer2.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                            @Override
+                            public void onPrepared(MediaPlayer mp) {
+                                h.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        mc2.show(0);
+                                        mediaPlayer2.start();
+
+                                    }
+                                });
+                            }
+                        });
+                        mediaPlayer2.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                            @Override
+                            public void onCompletion(MediaPlayer mp) {
+                                mediaPlayer2.release();
+                            }
+                        });*/
 
                     }
-
+                    mc = new MediaController(holder.caratula.getContext());
+                    mc.setMediaPlayer((MediaController.MediaPlayerControl) holder.caratula.getContext());
+                    mc.setAnchorView(holder.cabecera.getRootView());
+                    h = new Handler();
+                    // mc.show();
                     mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                         @Override
                         public void onPrepared(MediaPlayer mp) {
                             h.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    mc.show(0);
                                     mediaPlayer.start();
-
+                                    mc.show(10000);
                                 }
                             });
                         }
@@ -129,6 +146,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
                             mediaPlayer.release();
                         }
                     });
+
 
 
 
