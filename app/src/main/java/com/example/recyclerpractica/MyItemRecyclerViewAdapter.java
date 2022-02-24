@@ -49,6 +49,8 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         }
         else if (clase ==1){
          //   holder.tipos.setImageBitmap();
+            holder.tipos.setImageResource(R.drawable.ic_nota_foreground);
+
 
         }
         else if (clase==2){
