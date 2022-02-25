@@ -2,18 +2,21 @@ package com.example.recyclerpractica;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.MediaController.MediaPlayerControl;
 import android.widget.RelativeLayout;
@@ -24,21 +27,18 @@ import com.example.recyclerpractica.Canciones.Canciones;
 import com.example.recyclerpractica.placeholder.PlaceholderContent.PlaceholderItem;
 import com.example.recyclerpractica.databinding.FragmentItemBinding;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link PlaceholderItem}.
  * TODO: Replace the implementation with code for your data type.
  */
-public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> implements MediaPlayerControl {
-
-    MediaPlayer mediaPlayer, mediaPlayer2;
-    MediaController mc, mc2;
-    Handler h;
-    Canciones canciones = new Canciones();
+public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder>{
+    public static MediaPlayer mediaPlayer = new MediaPlayer();
+    public static MediaController mc;
+    public static Handler h;
     private final List<Canciones.Cancion> mValues;
-    Context context;
-    CancionesActivity reproductor = new CancionesActivity();
     public static String URI="";
 
     public MyItemRecyclerViewAdapter(List<Canciones.Cancion> items) {
@@ -53,7 +53,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.nombre.setText(mValues.get(position).getNombre());
         holder.descripcion.setText(mValues.get(position).getDescription());
         holder.caratula.setImageBitmap(mValues.get(position).getPhoto());
@@ -82,92 +82,72 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
             public void onClick(View v) {
                 URI = mValues.get(position).getURI();
                 Log.d("URI", " es " + URI);
-                if (clase ==0){
+
+
+
+                if (clase ==0) {
+
                     //Audio
-                    // Para poder controlar que arranque, he utilizado esta solución.
 
-                   // reproductor.start();
-                    if (URI.equals("entersandman")){
-                        URI="";
-
-                        Log.d("URI Aqui " , URI);
-                        mediaPlayer = MediaPlayer.create(holder.caratula.getContext(), R.raw.entersandman);
-
-                    }
-                    else if (URI.equals("eltiempopasara")) {
-                        URI="";
-                        mediaPlayer2 = MediaPlayer.create(holder.caratula.getContext(), R.raw.eltiempopasara);
-                    /*    mc2 = new MediaController(holder.caratula.getContext());
-                        mc2.setMediaPlayer((MediaController.MediaPlayerControl) holder.caratula.getContext());
-                        mc2.setAnchorView(holder.cabecera);
+                    mc = new MediaController(v.getContext());
+                    if (URI.equals("entersandman")) {
+                        try {
+                            Stop(v);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Toast.makeText(v.getContext(), "Reproduciendo Enter Sandman", Toast.LENGTH_SHORT).show();
+                        URI = "";
+                        mediaPlayer = MediaPlayer.create(v.getContext(), R.raw.entersandman);
+                        mc.setMediaPlayer((MediaPlayerControl) v.getContext());
+                        mc.setAnchorView(holder.cabecera);
                         h = new Handler();
-                       // mc.show();
-                        mediaPlayer2.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                             @Override
                             public void onPrepared(MediaPlayer mp) {
                                 h.post(new Runnable() {
                                     @Override
                                     public void run() {
-                                        mc2.show(0);
-                                        mediaPlayer2.start();
-
+                                        mc.show();
+                                        mediaPlayer.start();
                                     }
                                 });
                             }
                         });
-                        mediaPlayer2.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    }else if (URI.equals("eltiempopasara")) {
+                        try {
+                            Stop(v);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        URI = "";
+                        mediaPlayer = MediaPlayer.create(v.getContext(), R.raw.eltiempopasara);
+                        mc.setMediaPlayer((MediaPlayerControl) v.getContext());
+                        mc.setAnchorView(holder.cabecera);
+                        h = new Handler();
+                        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                             @Override
-                            public void onCompletion(MediaPlayer mp) {
-                                mediaPlayer2.release();
+                            public void onPrepared(MediaPlayer mp) {
+                                h.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        mc.show();
+                                        mediaPlayer.start();
+                                    }
+                                });
                             }
-                        });*/
+                        });
+
+
+                    } else if (clase == 1) {
+                        //   Video
+
+
+                    } else if (clase == 2) {
+                        //Streaming
+
 
                     }
-                    mc = new MediaController(holder.caratula.getContext());
-                    mc.setMediaPlayer((MediaController.MediaPlayerControl) holder.caratula.getContext());
-                    mc.setAnchorView(holder.cabecera.getRootView());
-                    h = new Handler();
-                    // mc.show();
-                    mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                        @Override
-                        public void onPrepared(MediaPlayer mp) {
-                            h.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    mediaPlayer.start();
-                                    mc.show(10000);
-                                }
-                            });
-                        }
-                    });
-                    mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                        @Override
-                        public void onCompletion(MediaPlayer mp) {
-                            mediaPlayer.release();
-                        }
-                    });
-
-
-
-
-
-                    mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                        @Override
-                        public void onCompletion(MediaPlayer mp) {
-                            mediaPlayer.release();
-                        }
-                    });
-                }
-                else if (clase ==1){
-                    //   Video
-
-
-
-                }
-                else if (clase==2){
-                    //Streaming
-
-
                 }
             }
         });
@@ -175,6 +155,19 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
     }
 
+    public void Show(View v){
+        mc.show();
+    }
+    public void Stop(View v) throws IOException {
+        if(mediaPlayer.isPlaying()){
+            mediaPlayer.stop();
+            mediaPlayer.prepare();
+        }
+    }
+
+    public void Hide(View v){
+        mc.hide();
+    }
 
     @Override
     public int getItemCount() {
@@ -188,7 +181,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         public ImageView caratula;
         public ImageView tipos;
         public ImageView play;
-        public RelativeLayout cabecera;
+        public LinearLayout cabecera;
         public String URI;
 
         public ViewHolder(FragmentItemBinding binding) {
@@ -198,7 +191,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
             caratula = binding.caratula;
             play = binding.imageViewPlay;
             tipos = binding.imageViewTipo;
-            cabecera = binding.relative;
+            cabecera = binding.linearLL;
         }
 
         @Override
@@ -207,87 +200,6 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         }
     }
 
-
-    public void Show(View v){
-        mc.show();
-    }
-
-    public void Hide(View v){
-        mc.hide();
-    }
-
-
-
-
-    @Override
-    public void start() {
-        if (!mediaPlayer.isPlaying()){
-            mediaPlayer.start();
-        }
-    }
-
-    @Override
-    public void pause() {
-        if (mediaPlayer.isPlaying()){
-            mediaPlayer.pause();
-        }
-    }
-
-    @Override
-    public int getDuration() {
-        return mediaPlayer.getDuration();
-    }
-
-    @Override
-    public int getCurrentPosition() {
-        return mediaPlayer.getCurrentPosition();
-    }
-
-    @Override
-    public void seekTo(int pos) {
-        mediaPlayer.seekTo(pos);
-    }
-
-    @Override
-    public boolean isPlaying() {
-        return mediaPlayer.isPlaying();
-    }
-
-    @Override
-    public int getBufferPercentage() {
-        return 0;
-    }
-
-    @Override
-    public boolean canPause() {
-        return true;
-    }
-
-    @Override
-    public boolean canSeekBackward() {
-        return true;
-    }
-
-    @Override
-    public boolean canSeekForward() {
-        return true;
-    }
-
-  /*  @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if(event.getAction()==MotionEvent.ACTION_DOWN)
-            if(!mc.isShowing())
-                mc.show(0);
-            else
-                mc.hide();
-        return false;
-    }*/
-
-
-    @Override
-    public int getAudioSessionId() {
-        return mediaPlayer.getAudioSessionId();
-    }
 
 
 
