@@ -133,11 +133,17 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
                 else if (clase == 1) {
                         //   Video
                     Intent i = new Intent(v.getContext(), VideoActivity.class);
+                    // No reproduce así.
+                    String URIVideo = "\"android.resource://\" + getPackageName() + \"/\" + R.raw.magia";
+
+                    i.putExtra("URI", "magia");
                     v.getContext().startActivity(i);
 
                 } else if (clase == 2) {
                         //Streaming
-
+                    Intent i = new Intent(v.getContext(), VideoActivity.class);
+                    i.putExtra("URI", mValues.get(position).getURI());
+                    v.getContext().startActivity(i);
 
                 }
 
