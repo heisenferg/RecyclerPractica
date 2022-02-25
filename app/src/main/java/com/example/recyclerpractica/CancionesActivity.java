@@ -1,6 +1,7 @@
 package com.example.recyclerpractica;
 
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.MediaController;
 
@@ -108,5 +109,15 @@ public class CancionesActivity extends AppCompatActivity implements MediaControl
         super.onPointerCaptureChanged(hasCapture);
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if(event.getAction()==MotionEvent.ACTION_DOWN)
+            if(MyItemRecyclerViewAdapter.mc.isShowing())
+                MyItemRecyclerViewAdapter.mc.hide();
+            else
+                MyItemRecyclerViewAdapter.mc.show(0);
+
+        return super.onTouchEvent(event);
+    }
 
 }

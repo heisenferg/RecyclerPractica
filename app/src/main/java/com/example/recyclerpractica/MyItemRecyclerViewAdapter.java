@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
@@ -131,7 +132,8 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
                 else if (clase == 1) {
                         //   Video
-
+                    Intent i = new Intent(v.getContext(), VideoActivity.class);
+                    v.getContext().startActivity(i);
 
                 } else if (clase == 2) {
                         //Streaming
