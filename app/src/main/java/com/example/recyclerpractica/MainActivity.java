@@ -1,6 +1,7 @@
 package com.example.recyclerpractica;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceFragmentCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +12,7 @@ import com.example.recyclerpractica.Canciones.Canciones;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button open;
+    Button open, pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,17 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        pref = findViewById(R.id.button);
+        pref.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent i = new Intent(getApplicationContext(), AjustesActivity.class);
+                                        startActivity(i);
+                                    }
+                                }
+        );
     }
+
 
 }

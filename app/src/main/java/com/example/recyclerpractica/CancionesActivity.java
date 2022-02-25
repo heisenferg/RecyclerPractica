@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.MediaController;
 
 import com.example.recyclerpractica.Canciones.Canciones;
+import com.example.recyclerpractica.databinding.ActivityCancionesBinding;
 
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,8 +17,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.preference.PreferenceFragmentCompat;
 
-import com.example.recyclerpractica.databinding.ActivityCancionesBinding;
 
 public class CancionesActivity extends AppCompatActivity implements MediaController.MediaPlayerControl {
 
@@ -29,7 +30,6 @@ public class CancionesActivity extends AppCompatActivity implements MediaControl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
         binding = ActivityCancionesBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
