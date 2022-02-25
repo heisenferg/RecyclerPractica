@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <SwitchPreferenceCompat
-        app:key="notificaciones"
-        app:title="Habilitar las notificaciones"/>
-    <Preference
-        app:key="feedback"
-        app:title="Enviános tu feedback"
-        app:summary="Envíanos tu feedback técnico o tus sugerencias"/>
-    <CheckBoxPreference
-        app:key="habilitar wifi"
-        app:title="WiFi" />
+
+    <PreferenceCategory app:title="Filtrar por: ">
+
+        <SwitchPreferenceCompat
+        app:key="audio"
+        app:title="Audio"/>
+        <SwitchPreferenceCompat
+            app:key="video"
+            app:title="Video"/>
+        <SwitchPreferenceCompat
+            app:key="streaming"
+            app:title="Streaming"/>
+    </PreferenceCategory>
 </PreferenceScreen>
