@@ -99,22 +99,8 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
                         Toast.makeText(v.getContext(), "Reproduciendo Enter Sandman", Toast.LENGTH_SHORT).show();
                         URI = "";
                         mediaPlayer = MediaPlayer.create(v.getContext(), R.raw.entersandman);
-                        mc.setMediaPlayer((MediaPlayerControl) v.getContext());
-                        mc.setAnchorView(holder.cabecera);
-                        h = new Handler();
-                        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                            @Override
-                            public void onPrepared(MediaPlayer mp) {
-                                h.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        mc.show();
-                                        mediaPlayer.start();
-                                    }
-                                });
-                            }
-                        });
-                    }else if (URI.equals("eltiempopasara")) {
+
+                    } else if (URI.equals("eltiempopasara")) {
                         try {
                             Stop(v);
                         } catch (IOException e) {
@@ -122,33 +108,37 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
                         }
                         URI = "";
                         mediaPlayer = MediaPlayer.create(v.getContext(), R.raw.eltiempopasara);
-                        mc.setMediaPlayer((MediaPlayerControl) v.getContext());
-                        mc.setAnchorView(holder.cabecera);
-                        h = new Handler();
-                        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                            @Override
-                            public void onPrepared(MediaPlayer mp) {
-                                h.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        mc.show();
-                                        mediaPlayer.start();
-                                    }
-                                });
-                            }
-                        });
 
+                    }
 
-                    } else if (clase == 1) {
+                    mc.setMediaPlayer((MediaPlayerControl) v.getContext());
+                    mc.setAnchorView(v.getRootView());
+                    h = new Handler();
+                    mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                        @Override
+                        public void onPrepared(MediaPlayer mp) {
+                            h.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mc.show();
+                                    mediaPlayer.start();
+                                }
+                            });
+                        }
+                    });
+
+                }
+
+                else if (clase == 1) {
                         //   Video
 
 
-                    } else if (clase == 2) {
+                } else if (clase == 2) {
                         //Streaming
 
 
-                    }
                 }
+
             }
         });
 

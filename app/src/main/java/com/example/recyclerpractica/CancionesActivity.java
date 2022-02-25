@@ -107,4 +107,6 @@ public class CancionesActivity extends AppCompatActivity implements MediaControl
     public void onPointerCaptureChanged(boolean hasCapture) {
         super.onPointerCaptureChanged(hasCapture);
     }
+
+
 }
