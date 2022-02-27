@@ -41,6 +41,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     public static Handler h;
     private final List<Canciones.Cancion> mValues;
     public static String URI="";
+    int clase;
 
     public MyItemRecyclerViewAdapter(List<Canciones.Cancion> items) {
         mValues = items;
@@ -55,100 +56,95 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        holder.nombre.setText(mValues.get(position).getNombre());
-        holder.descripcion.setText(mValues.get(position).getDescription());
-        holder.caratula.setImageBitmap(mValues.get(position).getPhoto());
-
-        URI = mValues.get(position).getURI();
-
         int clase = mValues.get(position).getTipo();
 
-        if (clase ==0){
-            holder.tipos.setImageResource(R.drawable.ic_nota_foreground);
-        }
-        else if (clase ==1){
-         //   Video
-            holder.tipos.setImageResource(R.drawable.ic_video_foreground);
+            holder.nombre.setText(mValues.get(position).getNombre());
+            holder.descripcion.setText(mValues.get(position).getDescription());
+            holder.caratula.setImageBitmap(mValues.get(position).getPhoto());
+            URI = mValues.get(position).getURI();
 
 
-        }
-        else if (clase==2){
-            //Streaming
-            holder.tipos.setImageResource(R.drawable.ic_stream_foreground);
-
-        }
-
-        holder.play.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                URI = mValues.get(position).getURI();
-                Log.d("URI", " es " + URI);
+            if (clase == 0) {
+                holder.tipos.setImageResource(R.drawable.ic_nota_foreground);
+            } else if (clase == 1) {
+                //   Video
+                holder.tipos.setImageResource(R.drawable.ic_video_foreground);
 
 
+            } else if (clase == 2) {
+                //Streaming
+                holder.tipos.setImageResource(R.drawable.ic_stream_foreground);
 
-                if (clase ==0) {
+            }
 
-                    //Audio
+            holder.play.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    URI = mValues.get(position).getURI();
+                    Log.d("URI", " es " + URI);
 
-                    mc = new MediaController(v.getContext());
-                    if (URI.equals("entersandman")) {
-                        try {
-                            Stop(v);
-                        } catch (IOException e) {
-                            e.printStackTrace();
+
+                    if (clase == 0) {
+
+                        //Audio
+
+                        mc = new MediaController(v.getContext());
+                        if (URI.equals("entersandman")) {
+                            try {
+                                Stop(v);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            Toast.makeText(v.getContext(), "Reproduciendo Enter Sandman", Toast.LENGTH_SHORT).show();
+                            URI = "";
+                            mediaPlayer = MediaPlayer.create(v.getContext(), R.raw.entersandman);
+
+                        } else if (URI.equals("eltiempopasara")) {
+                            try {
+                                Stop(v);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            URI = "";
+                            mediaPlayer = MediaPlayer.create(v.getContext(), R.raw.eltiempopasara);
+
                         }
-                        Toast.makeText(v.getContext(), "Reproduciendo Enter Sandman", Toast.LENGTH_SHORT).show();
-                        URI = "";
-                        mediaPlayer = MediaPlayer.create(v.getContext(), R.raw.entersandman);
 
-                    } else if (URI.equals("eltiempopasara")) {
-                        try {
-                            Stop(v);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        URI = "";
-                        mediaPlayer = MediaPlayer.create(v.getContext(), R.raw.eltiempopasara);
+                        mc.setMediaPlayer((MediaPlayerControl) v.getContext());
+                        mc.setAnchorView(v.getRootView());
+                        h = new Handler();
+                        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                            @Override
+                            public void onPrepared(MediaPlayer mp) {
+                                h.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        mc.show();
+                                        mediaPlayer.start();
+                                    }
+                                });
+                            }
+                        });
+
+                    } else if (clase == 1) {
+                        //   Video
+                        Intent i = new Intent(v.getContext(), VideoActivity.class);
+                        // No reproduce así.
+                        String URIVideo = "\"android.resource://\" + getPackageName() + \"/\" + R.raw.magia";
+
+                        i.putExtra("URI", "magia");
+                        v.getContext().startActivity(i);
+
+                    } else if (clase == 2) {
+                        //Streaming
+                        Intent i = new Intent(v.getContext(), VideoActivity.class);
+                        i.putExtra("URI", mValues.get(position).getURI());
+                        v.getContext().startActivity(i);
 
                     }
 
-                    mc.setMediaPlayer((MediaPlayerControl) v.getContext());
-                    mc.setAnchorView(v.getRootView());
-                    h = new Handler();
-                    mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                        @Override
-                        public void onPrepared(MediaPlayer mp) {
-                            h.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    mc.show();
-                                    mediaPlayer.start();
-                                }
-                            });
-                        }
-                    });
-
                 }
-
-                else if (clase == 1) {
-                        //   Video
-                    Intent i = new Intent(v.getContext(), VideoActivity.class);
-                    // No reproduce así.
-                    String URIVideo = "\"android.resource://\" + getPackageName() + \"/\" + R.raw.magia";
-
-                    i.putExtra("URI", "magia");
-                    v.getContext().startActivity(i);
-
-                } else if (clase == 2) {
-                        //Streaming
-                    Intent i = new Intent(v.getContext(), VideoActivity.class);
-                    i.putExtra("URI", mValues.get(position).getURI());
-                    v.getContext().startActivity(i);
-
-                }
-
-            }
-        });
+            });
 
 
     }
@@ -184,12 +180,15 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
         public ViewHolder(FragmentItemBinding binding) {
             super(binding.getRoot());
-            nombre = binding.textViewNombre;
-            descripcion = binding.textViewDescripciN;
-            caratula = binding.caratula;
-            play = binding.imageViewPlay;
-            tipos = binding.imageViewTipo;
+
+                nombre = binding.textViewNombre;
+                descripcion = binding.textViewDescripciN;
+                caratula = binding.caratula;
+                play = binding.imageViewPlay;
+                tipos = binding.imageViewTipo;
+
             cabecera = binding.linearLL;
+
         }
 
         @Override

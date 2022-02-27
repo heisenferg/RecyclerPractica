@@ -41,6 +41,9 @@ public class CancionesActivity extends AppCompatActivity implements MediaControl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+
+
         binding = ActivityCancionesBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -50,12 +53,12 @@ public class CancionesActivity extends AppCompatActivity implements MediaControl
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
-        Canciones.loadBikesFromJSON(this);
-        List<Canciones.Cancion> lista = Canciones.ITEMS;
-        MyItemRecyclerViewAdapter recyclerViewAdapter = new MyItemRecyclerViewAdapter(lista);
+
 
         guardarPreferencias();
-        recyclerViewAdapter.notifyDataSetChanged();
+
+        Canciones.loadBikesFromJSON(this);
+
 
     }
 
@@ -67,12 +70,11 @@ public class CancionesActivity extends AppCompatActivity implements MediaControl
                 .addToBackStack("preferencias")
                 .commit();
 */
-    //    audio = preferencias.getBoolean("audio", true);
-   //     video = preferencias.getBoolean("video", true);
-    //    streaming = preferencias.getBoolean("streaming", true);
+        audio = preferencias.getBoolean("audio", true);
+        video = preferencias.getBoolean("video", true);
+        streaming = preferencias.getBoolean("streaming", true);
 
-        if (audio){
-        }
+
         Log.d("Preferencias: ", "Opcion 1 " + preferencias.getBoolean("audio", true));
 
     }

@@ -14,6 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.recyclerpractica.Canciones.Canciones;
+
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -23,6 +26,10 @@ public class Ajustes extends PreferenceFragmentCompat {
 
     public Ajustes() {
         // Required empty public constructor
+
+        List<Canciones.Cancion> lista = Canciones.ITEMS;
+        MyItemRecyclerViewAdapter recyclerViewAdapter = new MyItemRecyclerViewAdapter(lista);
+        recyclerViewAdapter.notifyDataSetChanged();
     }
 
 

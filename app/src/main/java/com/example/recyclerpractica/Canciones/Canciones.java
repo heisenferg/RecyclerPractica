@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import com.example.recyclerpractica.CancionesActivity;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,6 +20,9 @@ public class Canciones {
     public static List<Cancion> ITEMS = new ArrayList<Cancion>();
     public static String selectedDate; //Store the selected date
     public static void loadBikesFromJSON(Context c) {
+        // Limpio para que no me repita los items al entrar varias veces
+        ITEMS.clear();
+
         String json = null;
         try {
             InputStream is =
@@ -43,8 +48,18 @@ public class Canciones {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                ITEMS.add(new Canciones.Cancion(
-                        photo,nombre,description,tipo,URI));
+                if (CancionesActivity.audio == true && tipo == 0) {
+                    ITEMS.add(new Canciones.Cancion(
+                            photo, nombre, description, tipo, URI));
+                }
+                if (CancionesActivity.video == true && tipo ==1){
+                    ITEMS.add(new Canciones.Cancion(
+                            photo, nombre, description, tipo, URI));
+                }
+                if (CancionesActivity.streaming == true && tipo ==2){
+                    ITEMS.add(new Canciones.Cancion(
+                            photo, nombre, description, tipo, URI));
+                }
             }
         } catch (IOException | JSONException e) {
             e.printStackTrace();
