@@ -174,11 +174,16 @@ public class CancionesActivity extends AppCompatActivity implements MediaControl
             startActivity(i);
         }
         if (id == R.id.reload){
-guardarPreferencias();
-Canciones.loadBikesFromJSON(this);
-            myItemRecyclerViewAdapter.notifyDataSetChanged();
+            // No he conseguido hacer funcionar el notifyDataSetChangeg, de modo que llamo a
+            // la actividad de nuevo con el botón actualizar que puse.
+            Intent i = new Intent(this, CancionesActivity.class);
+            startActivity(i);
+          //  guardarPreferencias();
+          //  Canciones.loadBikesFromJSON(this);
+          //  myItemRecyclerViewAdapter.notifyDataSetChanged();
 
         }
+        myItemRecyclerViewAdapter.notifyDataSetChanged();
         return super.onOptionsItemSelected(item);
     }
 
