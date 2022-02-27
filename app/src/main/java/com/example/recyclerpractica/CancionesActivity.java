@@ -44,6 +44,7 @@ public class CancionesActivity extends AppCompatActivity implements MediaControl
         super.onCreate(savedInstanceState);
 
 
+
         binding = ActivityCancionesBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -56,8 +57,17 @@ public class CancionesActivity extends AppCompatActivity implements MediaControl
 
         guardarPreferencias();
         Canciones.loadBikesFromJSON(this);
+
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        myItemRecyclerViewAdapter.notifyDataSetChanged();
+        guardarPreferencias();
+        Canciones.loadBikesFromJSON(this);
+        Log.d("Restart: ", "Aquí");
+    }
 
 
     public void guardarPreferencias (){
@@ -162,6 +172,12 @@ public class CancionesActivity extends AppCompatActivity implements MediaControl
             Toast.makeText(this, "Abriendo configuración...", Toast.LENGTH_SHORT).show();
             Intent i = new Intent(getApplicationContext(), AjustesActivity.class);
             startActivity(i);
+        }
+        if (id == R.id.reload){
+            guardarPreferencias();
+            Canciones.loadBikesFromJSON(this);
+            myItemRecyclerViewAdapter.notifyDataSetChanged();
+
         }
         return super.onOptionsItemSelected(item);
     }

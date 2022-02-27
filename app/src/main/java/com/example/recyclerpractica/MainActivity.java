@@ -29,15 +29,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        pref = findViewById(R.id.button);
-        pref.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        Intent i = new Intent(getApplicationContext(), AjustesActivity.class);
-                                        startActivity(i);
-                                    }
-                                }
-        );
+    }
+
+
+    public void reCarga(){
+        Intent i = new Intent(getApplicationContext(), CancionesActivity.class);
+        startActivity(i);
     }
 
 
