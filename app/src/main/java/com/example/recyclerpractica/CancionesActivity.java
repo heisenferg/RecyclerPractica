@@ -174,8 +174,8 @@ public class CancionesActivity extends AppCompatActivity implements MediaControl
             startActivity(i);
         }
         if (id == R.id.reload){
-            guardarPreferencias();
-            Canciones.loadBikesFromJSON(this);
+guardarPreferencias();
+Canciones.loadBikesFromJSON(this);
             myItemRecyclerViewAdapter.notifyDataSetChanged();
 
         }
