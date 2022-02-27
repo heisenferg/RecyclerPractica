@@ -23,23 +23,21 @@ import java.util.Set;
 
 public class Ajustes extends PreferenceFragmentCompat {
 
-
     public Ajustes() {
         // Required empty public constructor
 
-        List<Canciones.Cancion> lista = Canciones.ITEMS;
-        MyItemRecyclerViewAdapter recyclerViewAdapter = new MyItemRecyclerViewAdapter(lista);
-        recyclerViewAdapter.notifyDataSetChanged();
     }
 
-
+    @Override
+    public void onDestroy() {
+        MyItemRecyclerViewAdapter adapter = new MyItemRecyclerViewAdapter(Canciones.ITEMS);
+        adapter.notifyDataSetChanged();
+        super.onDestroy();
+    }
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.preferencias, rootKey);
     }
-
-
-
 
 }

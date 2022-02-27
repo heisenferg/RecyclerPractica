@@ -2,6 +2,7 @@ package com.example.recyclerpractica;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -16,6 +17,7 @@ import com.example.recyclerpractica.databinding.ActivityCancionesBinding;
 
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 
@@ -35,13 +37,11 @@ public class CancionesActivity extends AppCompatActivity implements MediaControl
     private AppBarConfiguration appBarConfiguration;
     private ActivityCancionesBinding binding;
     public static boolean audio, video, streaming;
-
+    public MyItemRecyclerViewAdapter myItemRecyclerViewAdapter= new MyItemRecyclerViewAdapter(Canciones.ITEMS);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
 
 
         binding = ActivityCancionesBinding.inflate(getLayoutInflater());
@@ -54,22 +54,15 @@ public class CancionesActivity extends AppCompatActivity implements MediaControl
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
 
-
         guardarPreferencias();
-
         Canciones.loadBikesFromJSON(this);
-
-
     }
+
+
 
     public void guardarPreferencias (){
         SharedPreferences preferencias = PreferenceManager.getDefaultSharedPreferences(this);
 
-   /*     getSupportFragmentManager()
-                .beginTransaction()
-                .addToBackStack("preferencias")
-                .commit();
-*/
         audio = preferencias.getBoolean("audio", true);
         video = preferencias.getBoolean("video", true);
         streaming = preferencias.getBoolean("streaming", true);
@@ -83,6 +76,8 @@ public class CancionesActivity extends AppCompatActivity implements MediaControl
     @Override
     public void start() {
         MyItemRecyclerViewAdapter.mediaPlayer.start();
+        myItemRecyclerViewAdapter.notifyDataSetChanged();
+
     }
 
     @Override
@@ -170,4 +165,6 @@ public class CancionesActivity extends AppCompatActivity implements MediaControl
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 }

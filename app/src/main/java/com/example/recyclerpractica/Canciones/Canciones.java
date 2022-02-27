@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.example.recyclerpractica.CancionesActivity;
+import com.example.recyclerpractica.MyItemRecyclerViewAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,6 +20,7 @@ public class Canciones {
     //List of all the bikes to be listed in the RecyclerView
     public static List<Cancion> ITEMS = new ArrayList<Cancion>();
     public static String selectedDate; //Store the selected date
+    public static MyItemRecyclerViewAdapter recyclerViewAdapter = new MyItemRecyclerViewAdapter(ITEMS);
     public static void loadBikesFromJSON(Context c) {
         // Limpio para que no me repita los items al entrar varias veces
         ITEMS.clear();
@@ -51,6 +53,7 @@ public class Canciones {
                 if (CancionesActivity.audio == true && tipo == 0) {
                     ITEMS.add(new Canciones.Cancion(
                             photo, nombre, description, tipo, URI));
+
                 }
                 if (CancionesActivity.video == true && tipo ==1){
                     ITEMS.add(new Canciones.Cancion(
@@ -61,6 +64,8 @@ public class Canciones {
                             photo, nombre, description, tipo, URI));
                 }
             }
+            recyclerViewAdapter.notifyDataSetChanged();
+
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
