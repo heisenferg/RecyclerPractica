@@ -1,14 +1,21 @@
 package com.example.recyclerpractica;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.MediaController;
+import android.widget.Toast;
 
 import com.example.recyclerpractica.Canciones.Canciones;
 import com.example.recyclerpractica.databinding.ActivityCancionesBinding;
 
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
@@ -18,13 +25,16 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceManager;
+
+import java.util.List;
 
 
 public class CancionesActivity extends AppCompatActivity implements MediaController.MediaPlayerControl {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityCancionesBinding binding;
-
+    public static boolean audio, video, streaming;
 
 
     @Override
@@ -41,8 +51,29 @@ public class CancionesActivity extends AppCompatActivity implements MediaControl
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
         Canciones.loadBikesFromJSON(this);
+        List<Canciones.Cancion> lista = Canciones.ITEMS;
+        MyItemRecyclerViewAdapter recyclerViewAdapter = new MyItemRecyclerViewAdapter(lista);
 
+        guardarPreferencias();
+        recyclerViewAdapter.notifyDataSetChanged();
 
+    }
+
+    public void guardarPreferencias (){
+        SharedPreferences preferencias = PreferenceManager.getDefaultSharedPreferences(this);
+
+   /*     getSupportFragmentManager()
+                .beginTransaction()
+                .addToBackStack("preferencias")
+                .commit();
+*/
+    //    audio = preferencias.getBoolean("audio", true);
+   //     video = preferencias.getBoolean("video", true);
+    //    streaming = preferencias.getBoolean("streaming", true);
+
+        if (audio){
+        }
+        Log.d("Preferencias: ", "Opcion 1 " + preferencias.getBoolean("audio", true));
 
     }
 
@@ -120,4 +151,21 @@ public class CancionesActivity extends AppCompatActivity implements MediaControl
         return super.onTouchEvent(event);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+       getMenuInflater().inflate(R.menu.main_activity2, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        
+        if (id == R.id.settings){
+            Toast.makeText(this, "Abriendo configuración...", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(getApplicationContext(), AjustesActivity.class);
+            startActivity(i);
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

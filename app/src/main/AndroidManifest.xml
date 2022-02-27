@@ -12,6 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RecyclerPractica">
         <activity
+            android:name=".MainActivity2"
+            android:exported="false"
+            android:label="@string/title_activity_main2"
+            android:theme="@style/Theme.RecyclerPractica.NoActionBar" />
+        <activity
             android:name=".AjustesActivity"
             android:exported="false" />
         <activity

@@ -13,4 +13,5 @@ public class AjustesActivity extends AppCompatActivity {
 
         getSupportFragmentManager().beginTransaction().replace(R.id.contenedorAjustes, new Ajustes()).commit();
     }
+
 }
